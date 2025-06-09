@@ -1,41 +1,35 @@
 class UMKMSystem:
+    anggota = []
+    dana_pinjaman = 50000000
+
     def __init__(self, nama_umkm):
-        self.nama_umkm = nama_umkm
-        self.anggota = []
-        self.dana_pinjaman = 50000000
-        print(f"Terimakasih telah menunggu, {nama_umkm} telah kami tambahkan di program kami.")
+        self.umkm = nama_umkm
         
     def tambah_anggota(self, nama_anggota, jumlah_pinjaman):
-        # anggota[nama] = jumlah_pinjaman
         self.anggota.append({"nama_anggota": nama_anggota, "jumlah_pinjaman": jumlah_pinjaman})
-        print(f"{nama_anggota} telah sukses terdaftar sebagai anggota {self.nama_umkm} dengan jumlah pinjaman {jumlah_pinjaman:,}")
+        
+        print(f"{nama_anggota} telah sukses terdaftar sebagai anggota {self.umkm} dengan jumlah pinjaman {jumlah_pinjaman:,}")
+        
         if self.dana_pinjaman - jumlah_pinjaman > 0:
             self.dana_pinjaman = self.dana_pinjaman - jumlah_pinjaman
         else:
-            print(f"Mohon maaf, dana pinjaman pada UMKM {self.nama_umkm} telah mencapai limit.\n"
-                  +"Anda dapat menggunakannya kembali ketika anggota lain sudah mengembalikan.")
-        # print(self.anggota)
+            print(f"Mohon maaf, dana pinjaman pada UMKM {self.umkm} telah mencapai limit.\n"
+                  +"Anda dapat menggunakannya kembali ketika anggota lain sudah mengembalikan, Terimakasih.")
     
     def hitung_pengembalian(self, nama_anggota, tahun_pengembalian):
         jumlah_pinjaman = 0
-        # total_pengembalian = 0
         for dict_anggota in self.anggota:
-            # print(dict_anggota)
-            # print(dict_anggota["nama_anggota"])
             if dict_anggota["nama_anggota"] == nama_anggota:
                 jumlah_pinjaman = dict_anggota["jumlah_pinjaman"]
         
         total_pengembalian = jumlah_pinjaman + (jumlah_pinjaman * 0.05) * tahun_pengembalian
         
         print(f"Total pengembalian dari {nama_anggota} selama {tahun_pengembalian} Tahun sebesar: {int(total_pengembalian):,}")
-        
-        # return total_pengembalian
-        # print(total_pengembalian)
-            
+                    
 
 class Koperasi(UMKMSystem):
     def __init__(self, nama_umkm):
-        super().__init__(nama_umkm)
+        super().__init__(nama_umkm.umkm)
         self.transaksi = []
 
     def catat_transaksi(self, nama_anggota, jenis_transaksi, jumlah_transaksi):
@@ -53,18 +47,15 @@ class Koperasi(UMKMSystem):
                 transaksi_beli = + items["jumlah_transaksi"]
 
         total_keuntungan = transaksi_jual - transaksi_beli
-        # print(transaksi_jual)
         # print(transaksi_beli)
+        # print(transaksi_jual)
         print(f"Total Keuntungan Koperasi sebesar (Rp.): {total_keuntungan:,}")
 
 
 class BankSampah(UMKMSystem):
     def __init__(self, nama_umkm):
-        super().__init__(nama_umkm)
+        super().__init__(nama_umkm.umkm)
         self.data_sampah = {}
-
-        self.data_sampah = {"doni": {"plastik": 10, "kertas": 5}, "ihsan": {"kertas": 4, "plastik": 2}}
-        # self.data_sampah = {"doni" : {"plastik" : 10,"kertas" : 5}}
 
     def catat_sampah(self, nama_anggota, jenis_sampah, jumlah):        
         if nama_anggota in self.data_sampah:
@@ -75,9 +66,9 @@ class BankSampah(UMKMSystem):
                     else:
                         self.data_sampah[nama_anggota][jenis_sampah] = jumlah
         else:
-            self.data_sampah[nama_anggota] = {jenis_sampah : jumlah}
+            self.data_sampah[nama_anggota] = {jenis_sampah: jumlah}
         
-        print("Data Bank sampah telah tercatat.")
+        print("\nData Bank sampah telah tercatat.")
         self.pesan_edukasi(nama_anggota)
     
     def hitung_nilai_tukar(self):
@@ -85,25 +76,16 @@ class BankSampah(UMKMSystem):
         total_nilai = 0
         for items in self.data_sampah:
             nilai_anggota = 0
-            # print(items)
             for type in self.data_sampah[items]:
-                # print(type)
                 if type == "plastik":
-                    # print(f"total nilai awal tipe {type} : ", nilai_anggota)
                     nilai_anggota = nilai_anggota + (5000 * self.data_sampah[items][type])
-                    # print(f"jumlah {type} dikalikan 5000: ",self.data_sampah[items][type])
-                    # print("total nilai ditambah : ", nilai_anggota)
                 elif type == "kertas":
-                    # print(f"total nilai awal tipe {type} : ", nilai_anggota)
                     nilai_anggota = nilai_anggota + (2000 * self.data_sampah[items][type])
-                    # print(f"jumlah {type} dikalikan 2000: ",self.data_sampah[items][type])
-                    # print("total nilai ditambah : ", nilai_anggota)
             total_nilai = total_nilai + nilai_anggota
             total_per_anggota[items] = nilai_anggota
 
-            print(f"total nilai akhir {items} : ", nilai_anggota)
-        print("total nilai semua : ", total_nilai)
-        print(total_per_anggota)
+            print(f"Total nilai tukar {items} : ", nilai_anggota)
+        print("Total nilai tukar semua anggota : ", total_nilai)
 
     def pesan_edukasi(self, nama):
         total_sampah = 0
@@ -111,138 +93,150 @@ class BankSampah(UMKMSystem):
             if items == nama:
                 for jenis_sampah in self.data_sampah[nama]:
                     total_sampah = total_sampah + self.data_sampah[nama][jenis_sampah]
-        if total_sampah > 20:
-            print(f"Anda Hebat {nama} dapat mengumpulkan sampah sangat banyak dengan total {total_sampah}!\n"
-                  + "Semoga kita bisa terus konsisten menjaga bumi dengan mengumpulkan lalu mengolah sampah.")
-        elif total_sampah > 10:
-            print(f"Terimakasih banyak {nama} atas kontribusi nya dalam memilah dan mengumpulkan sampah sebanyak {total_sampah}.\n"
-                  + "Mari kita lebih giat lagi untuk mengolah sampah demi keberlanjutan hidup umat manusia.")
+        if total_sampah > 50:
+            print(f"\n{nama} telah mengumpulkan {total_sampah} kg sampah.\n"
+                  + "Anda adalah pahlawan lingkungan sejati!")
+        elif total_sampah > 20:
+            print(f"\n{nama} telah mengumpulkan {total_sampah} kg sampah.\n"
+                  + "Mari bersama berkontribusi lebih banyak untuk bumi!")
+        elif total_sampah > 0:
+            print(f"\n{nama} telah mengumpulkan {total_sampah} kg sampah.\n"
+                  + "Semoga ini menjadi awal yang baik untuk kita bisa mengumpulkan lebih banyak sampah lagi!")
         else:
-            print(f"Halo {nama}, Terimakasih telah mengumpulkan sampah sebanyak {total_sampah}.\n"
-                  + "Ini menjadi awal yang baik karena kamu sudah peduli dengan lingkungan, Semoga kita bisa mengolah lebih banyak sampah lagi!")
+            print(f"\n{nama} belum mengumpulkan sampah.\nMari kita mulai mengumpulkan sampah agar Bumi kembali bersih!")
 
-# ===============================================================
-# umkm_a = UMKMSystem("ETL")
-# umkm_a.tambah_anggota("doni", 100000)
-# umkm_a.tambah_anggota("ihsan", 200000)
-
-# print(umkm_a.nama_umkm)
-# print(umkm_a.anggota)
-# print(umkm_a.dana_pinjaman)
-
-# umkm_a.hitung_pengembalian("doni",1)
-# ===============================================================
-# umkm_b = Koperasi("Batch 9")
-
-# umkm_b.tambah_anggota("doni", 100000)
-# umkm_b.tambah_anggota("ihsan", 200000)
-
-# print(umkm_b.nama_umkm)
-# print(umkm_b.anggota)
-# print(umkm_b.dana_pinjaman)
-
-# umkm_b.hitung_pengembalian("doni",1)
-# umkm_b.catat_transaksi("ihsan","jual",100000)
-# umkm_b.catat_transaksi("ihsan","beli",70000)
-
-# umkm_b.hitung_keuntungan()
-# print(umkm_b.transaksi)
-# print(umkm_b.jumlah_)
-# ===============================================================
-# umkm_c = BankSampah("Batch 10")
-# umkm_c.catat_sampah("doni","plastik",30)
-# umkm_c.catat_sampah("doni","kertas",5)
-# umkm_c.catat_sampah("doni","organik",20)
-# umkm_c.catat_sampah("ihsan","kertas",8)
-# umkm_c.catat_sampah("ihsan","organik",2)
-# umkm_c.catat_sampah("doni","kertas",15)
-
-# umkm_c.hitung_nilai_tukar()
-# umkm_c.pesan_edukasi('doni')
-# print(umkm_c.data_sampah)
 
 def menu(nama_umkm):
+    global koperasi, bank_sampah
     while True:
         try:
             print("\nSilahkan pilih menu:")
             print("1. UMKM System")
             print("2. Koperasi")
             print("3. Bank Sampah")
-            print("4. Keluar")
+            print("4. Laporan")
+            print("5. Keluar")
             pilih_menu = int(input("Pilih (1/2/3/4): "))
             if pilih_menu == 1:
                 print("\nUMKM System\n-----------\nSilahkan pilih kegiatan:")
                 print("1. Tambah Anggota")
                 print("2. Hitung Pengembalian")
-                print("3. Informasi Dana Pinjaman")
-                print("4. Kembali")
-                menu_umkm = int(input("Pilih (1/2/3/4): "))
+                print("3. Kembali")
+                # print("4. Laporan")
+                menu_umkm = int(input("Pilih (1/2/3): "))
 
                 if menu_umkm == 1:
-                    nama_anggota = input("Masukkan nama anggota: ")
-                    jumlah_pinjaman = int(input("Masukkan jumlah pinjaman: "))
-                    nama_umkm.tambah_anggota(nama_anggota, jumlah_pinjaman)
+                    if isinstance(bank_sampah, BankSampah) and len(bank_sampah.data_sampah) > 0:
+                        nama_anggota = input("Masukkan nama anggota: ")
+                        jumlah_pinjaman = int(input("Masukkan jumlah pinjaman: "))
+                        nama_umkm.tambah_anggota(nama_anggota, jumlah_pinjaman)
+                    else:
+                        print(f"Notes: {nama_umkm.umkm} belum aktif dalam program Bank Sampah sehingga belum dapat menggunakan dana pinjaman.\n")
+                        nama_anggota = input("Masukkan nama anggota: ")
+                        jumlah_pinjaman = 0
+                        nama_umkm.tambah_anggota(nama_anggota, jumlah_pinjaman)
                 elif menu_umkm == 2:
                     nama_anggota = input("Masukkan nama anggota: ")
                     tahun_pengembalian = int(input("Masukkan tahun pengembalian (1,2,dst): "))
                     nama_umkm.hitung_pengembalian(nama_anggota, tahun_pengembalian)
                 elif menu_umkm == 3:
-                    print(nama_umkm.dana_pinjaman)
-                    #nanti dibuat supaya bisa muncul informasi dana pinjaman umkm nya
-                else:
                     pass
+                # elif menu_umkm == 4:
+                #     print(nama_umkm.anggota)
+                else:
+                    print("Mohon Pilih menu yang tertera.")
 
             elif pilih_menu == 2:
-                print("\Koperasi\n-----------\nSilahkan pilih kegiatan:")
-                print("1. Catat Transaksi")
-                print("2. Hitung Keuntungan")
-                print("3. Kembali")
-                menu_koperasi = int(input("Pilih (1/2/3): "))
+                print("Koperasi\n-----------\nSilahkan pilih kegiatan:")
+                print("1. Daftar Koperasi")
+                print("2. Catat Transaksi")
+                print("3. Hitung Keuntungan")
+                print("4. Kembali")
+                menu_koperasi = int(input("Pilih (1/2/3/4): "))
 
                 if menu_koperasi == 1:
+                    if isinstance(koperasi, Koperasi):
+                        print("Anda sudah terdaftar dalam program Koperasi")
+                    else:
+                        koperasi = Koperasi(nama_umkm)
+                elif menu_koperasi == 2:
                     nama_anggota = input("Masukkan nama anggota: ")
                     jenis_transaksi = input("Masukkan jenis transaksi (Jual/Beli): ")
                     jumlah_transaksi = int(input("Masukkan jumlah transaksi: "))
-                    nama_umkm.catat_transaksi(nama_anggota, jenis_transaksi, jumlah_transaksi)
-                elif menu_koperasi == 2:
-                    nama_umkm.hitung_keuntungan()
-                else:
+                    koperasi.catat_transaksi(nama_anggota, jenis_transaksi, jumlah_transaksi)
+                elif menu_koperasi == 3:
+                    koperasi.hitung_keuntungan()
+                elif menu_koperasi == 4:
                     pass
+                else:
+                    print("Mohon Pilih menu yang tertera.")
                 
             elif pilih_menu == 3:
-                print("\Bank Sampah\n-----------\nSilahkan pilih kegiatan:")
-                print("1. Catat Sampah")
-                print("2. Hitung Nilai Tukar")
-                print("3. Informasi Data Bank Sampah")
-                print("4. Kembali")
-                menu_bank_sampah = int(input("Pilih (1/2/3/4): "))
+                print("Bank Sampah\n-----------\nSilahkan pilih kegiatan:")
+                print("1. Daftar Bank Sampah")
+                print("2. Catat Sampah")
+                print("3. Hitung Nilai Tukar")
+                print("4. Informasi Data Bank Sampah")
+                print("5. Kembali")
+                menu_bank_sampah = int(input("Pilih (1/2/3/4/5): "))
 
                 if menu_bank_sampah == 1:
+                    if isinstance(bank_sampah, BankSampah):
+                        print("Anda sudah terdaftar dalam program Bank Sampah")
+                    else:
+                        bank_sampah = BankSampah(nama_umkm)
+                elif menu_bank_sampah == 2:
                     nama_anggota = input("Masukkan nama anggota: ")
                     jenis_sampah = input("Masukkan jenis sampah: ")
                     jumlah_sampah = int(input("Masukkan jumlah sampah: "))
-                    nama_umkm.catat_sampah(nama_anggota, jenis_sampah, jumlah_sampah)
-                elif menu_bank_sampah == 2:
-                    nama_umkm.hitung_nilai_tukar()
+                    bank_sampah.catat_sampah(nama_anggota, jenis_sampah, jumlah_sampah)
                 elif menu_bank_sampah == 3:
+                    bank_sampah.hitung_nilai_tukar()
+                elif menu_bank_sampah == 4:
                     nama_anggota = input("Masukkan nama anggota: ")
-                    nama_umkm.pesan_edukasi(nama_anggota)
-                else:
+                    print(bank_sampah.data_sampah[nama_anggota])
+                elif menu_bank_sampah == 5:
                     pass
+                else:
+                    print("Mohon Pilih menu yang tertera.")
             elif pilih_menu == 4:
+                print(f"\nBerikut Laporan lengkap dari UMKM {nama_umkm.umkm}:\n")
+                for items in nama_umkm.anggota:
+                    nama = items["nama_anggota"]
+                    pinjaman = items["jumlah_pinjaman"]
+                    print(f"Nama: {nama}\nJumlah Pinjaman: {pinjaman}\n")
+                for items in koperasi.transaksi: #masih ada yg kurang pas output sama looping nya
+                    transaksi_beli = 0
+                    transaksi_jual = 0
+                    if items["jenis_transaksi"] == "jual":
+                        transaksi_jual = items["jumlah_transaksi"]
+                    elif items["jenis_transaksi"] == "beli":
+                        transaksi_beli = items["jumlah_transaksi"]
+                    nama = items["nama_anggota"]
+                    total_keuntungan = transaksi_jual - transaksi_beli
+                    print(f"Transaksi:\nNama: {nama}\nTransaksi Jual: {transaksi_jual}\nTransaksi Beli: {transaksi_beli}\nTotal Keuntungan: {total_keuntungan}")
+                koperasi.hitung_keuntungan()
+                
+                bank_sampah.hitung_nilai_tukar()
+                for items in bank_sampah.data_sampah:
+                    nama = items
+                    bank_sampah.pesan_edukasi(nama)
+                    # transaksi = items["jenis_transaksi"]
+                    # jumlah = items["jumlah_transaksi"]
+
+            elif pilih_menu == 5:
                 break
+            else:
+                print("Mohon Pilih menu yang tertera.")
         except Exception as e:
             print(e)
 
-
-umkm_terdaftar = [] #nanti ini dan detail lain nya di read dan taro di file txt
-nama_umkm = input("Selamat Datang di aplikasi UMKM System!\nMohon masukkan nama UMKM Anda: ")
-if nama_umkm in umkm_terdaftar:
-    menu(nama_umkm)
-#kasih menu opsi dari tiap fungsi class, 
-# buat dulu pengecekan di tiap class nya apakah sudah terdaftar atau ada data nya
-#nanti pilih menu nya buat ke fungsi tersendiri
-else:
-    opsi = input(f"Selamat Datang {nama_umkm}!\nSepertinya {nama_umkm} belum terdaftar di sistem kami, apakah kamu mau mendaftarkan UMKM-mu? (Y/N): ")
+try:
+    nama_umkm = input("Selamat Datang di aplikasi UMKM System!\nMohon masukkan nama UMKM Anda: ")
+    print(f"Selamat Datang {nama_umkm}!")
     nama_umkm = UMKMSystem(nama_umkm)
+    koperasi = None
+    bank_sampah = None
     menu(nama_umkm)
+except Exception as e:
+    print(e)
