@@ -4,17 +4,886 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UMKM System</title>
-    <!-- <style>
+    <style>
         body {
-
+            margin: 0;
+            padding: 0;
+            background-color: rgb(222, 221, 210);
+            color: #0f4631;
         }
-    </style> -->
+
+        header {
+            background-color: #a2bdb0;
+            color: #000000;
+            padding: 20px 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            margin-bottom: 10px;                                    
+        }
+        header p {
+            font-size: 1.5rem;
+            font-style: italic;                      
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .section {
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            margin: 30px;
+            padding: 25px;
+            background-color: rgb(230, 230, 230);
+        }
+
+        .desc {
+            margin-right: 20px;
+        }
+
+        h1 {
+            font-size: 2.7rem;
+        }
+
+        h2 {
+            border-bottom: 1px solid #0a0a0a;
+            margin-bottom: 10px;
+            padding-bottom: 20px;
+            font-size: 2.2rem;
+        }
+
+        pre {
+            border-radius: 20px;
+            border-bottom: 1px solid #0a0a0a;
+            margin-bottom: 10px;
+            padding-bottom: 20px;
+            overflow-x: auto;
+            font-size: 1.2rem;
+            background-color: rgb(204, 209, 214);
+        }
+
+        p {
+            font-size: 1.6rem;
+        }
+
+        ul {
+            font-size: 1.4rem;
+        }
+
+        footer {
+            background-color: rgb(204, 209, 214);
+            color: #000000;
+            padding: 30px;
+            text-align: center;
+        }
+
+
+    </style>
 
 
 </head>
 <body>
-    <h1>
-        Test HTML
-    </h1>
+    <header>
+        <h1>Sistem Pengelolaan UMKM <br> Koperasi | Bank Sampah</h1>
+        <p>dibuat oleh: <strong>Doni Wahyudi</strong> | 09.043.DB2025</p>
+    </header>
+    <div class="page">
+    <div class="section">
+        <h2>Query 1 - Class UMKMSystem</h2>
+        <pre><code>
+ class UMKMSystem:
+     anggota = []
+     dana_pinjaman = 50000000
+     def __init__(self, nama_umkm):
+         self.umkm = nama_umkm
+        </code></pre>
+        <div class="desc">
+        <p><strong>Penjelasan:</strong><br><ul>Class UMKMSystem untuk managemen nama UMKM, anggota, dan pendanaan UMKM.</ul></p>
+        <p><strong>Do's:</strong><br><ul>
+            <li>Menambahkan atribut nama_umkm saat inisiasi class untuk menyimpan nama umkm</li>
+            <li>Membuat variabel anggota sebagai list kosong untuk menyimpang data anggota</li>
+            <li>Membuat dana_pinjaman sebesar 50 juta rupiah sebagai modal dana UMKM</li>
+        </ul></p>
+        <p><strong>Don'ts:</strong><br><ul>
+            <li>Atribut anggota dan dana_pinjaman tidak dimasukkan di dalam init agar saat inisiasi kelas lain nya yang mewarisi class UMKMSystem tidak me-reset nilai dari atribut tersebut</li>
+        </ul></p>
+        </div>
+    </div>
+    <div class="section">
+        <h2>Query 2 - Method untuk Menambah Anggota UMKM</h2>
+        <pre><code>
+ def tambah_anggota(self, nama_anggota, jumlah_pinjaman):
+     if self.dana_pinjaman - jumlah_pinjaman > 0:
+         self.dana_pinjaman = self.dana_pinjaman - jumlah_pinjaman
+         if len(self.anggota) > 0:
+             for i in nama_umkm.anggota:
+                 if i["nama_anggota"] == nama_anggota:
+                     self.anggota[self.anggota.index(i)] = {"nama_anggota": nama_anggota, "jumlah_pinjaman": jumlah_pinjaman}
+                     print(f"{nama_anggota} telah sukses terupdate jumlah pinjaman menjadi Rp. {jumlah_pinjaman:,}")
+                     break
+             else:
+                 self.anggota.append({"nama_anggota": nama_anggota, "jumlah_pinjaman": jumlah_pinjaman})
+                 print(f"{nama_anggota} telah sukses terdaftar sebagai anggota {self.umkm} dengan jumlah pinjaman Rp. {jumlah_pinjaman:,}")
+         else:
+             self.anggota.append({"nama_anggota": nama_anggota, "jumlah_pinjaman": jumlah_pinjaman})
+             print(f"{nama_anggota} telah sukses terdaftar sebagai anggota {self.umkm} dengan jumlah pinjaman Rp. {jumlah_pinjaman:,}")
+     else:
+         print(f"Mohon maaf, dana pinjaman pada UMKM {self.umkm} telah mencapai limit.\n"
+               +"Anda dapat menggunakannya kembali ketika anggota lain sudah mengembalikan, Terimakasih.")
+         self.anggota.append({"nama_anggota": nama_anggota, "jumlah_pinjaman": 0})
+         print(f"{nama_anggota} telah sukses terdaftar sebagai anggota {self.umkm} dengan jumlah pinjaman Rp. 0")
+        </code></pre>
+        <p><strong>Penjelasan:</strong><br><ul>Method tambah_anggota untuk mendaftarkan nama anggota dan jumlah pinjaman ke dalam variabel anggota di class UMKMSystem.</ul></p>
+        <p><strong>Do's:</strong><br><ul>
+            <li>Menerima input nama_anggota dan jumlah_pinjaman</li>
+            <li>Membuat handle jika data sudah ada maka jumlah pinjamannya akan terupdate</li>
+            <li>Gunakan append untuk menambahkan data ke variabel anggota di class UMKMSystem yang berupa list</li>
+            <li>Masukkan nama anggota dan jumlah pinjaman sebagai dictionary agar mudah saat mengambil value nya berdasarkan key masing2</li>
+            <li>Membuat handle dana pinjaman dalam class UMKMSystem yang akan berkurang sesuai dengan jumlah pinjaman yang di pakai oleh anggota UMKM</li>
+            <li>Jika Total jumlah pinjaman semua anggota melebihi dana pinjaman (Rp. 50 juta) maka tidak bisa meminjam lebih dari itu</li>
+        </ul></p>
+        <p><strong>Don'ts:</strong><br><ul>
+            <li>Memasukkan nama anggota dan jumlah pinjaman sebagai list karena akan menyulitkan saat retrieval data</li>
+        </ul></p>
+    </div>
+    <div class="section">
+        <h2>Query 3 - Method untuk Menghitung Pengembalian Pinjaman</h2>
+        <pre><code>
+    def hitung_pengembalian(self, nama_anggota, tahun_pengembalian):
+        for dict_anggota in self.anggota:
+            if dict_anggota["nama_anggota"] == nama_anggota:
+                jumlah_pinjaman = dict_anggota["jumlah_pinjaman"]
+        
+        total_pengembalian = jumlah_pinjaman + (jumlah_pinjaman * 0.05) * tahun_pengembalian
+        print(f"Total pengembalian dari {nama_anggota} selama {tahun_pengembalian} Tahun sebesar (Rp.): {int(total_pengembalian):,}")
+        </code></pre>
+        <p><strong>Penjelasan:</strong><br><ul>Method hitung_pengembalian untuk menghitung jumlah dana yang harus dibayarkan oleh anggota UMKM berdasarkan tahun pembayaran dengan margin 5% per tahun.</ul></p>
+        <p><strong>Do's:</strong><br><ul>
+            <li>Menerima input nama_anggota dan tahun_pengembalian</li>
+            <li>Melakukan looping dari variabel anggota untuk mengambil nama anggota yang dipilih dan jumlah pinjaman nya</li>
+            <li>Melakukan pengecekan nama anggota yang dipilih menggunakan if</li>
+            <li>Menghitung total pengembalian berdasarkan jumlah pinjaman ditambah margin 5% yang dikalikan tahun pengembalian</li>
+        </ul></p>
+        <p><strong>Don'ts:</strong><br><ul>
+            <li>Jangan lupa menambahkan kurung saat menghitung total pengembalian agar sesuai dengan prioritas operasi yang diinginkan</li>
+        </ul></p>
+    </div>
+    <div class="section">
+        <h2>Query 4 - Class Koperasi</h2>
+        <pre><code>
+    class Koperasi(UMKMSystem):
+        def __init__(self, nama_umkm):
+            super().__init__(nama_umkm.umkm)
+            self.transaksi = []
+        </code></pre>
+        <p><strong>Penjelasan:</strong><br><ul>Class Koperasi yang mewarisi class UMKMSystem, dengan atribut tambahan variabel transaksi untuk menyimpan riwayat transaksi yang dilakukan oleh anggota UMKM.</ul></p>
+        <p><strong>Do's:</strong><br><ul>
+            <li>Membawa variabel nama umkm dari class UMKMSystem menggunakan method super() untuk memastikan saat inisiasi class Koperasi juga menginisiasi atribut yang ada pada class UMKMSystem</li>
+            <li>Inisiasi variabel transaksi berupa list kosong untuk menyimpan data transaksi</li>
+        </ul></p>
+        <p><strong>Don'ts:</strong><br><ul>
+            <li>Untuk variabel transaksi bisa dibuat langsung saat inisiasi jika class tersebut tidak diwarisi lagi ke class lain, jika akan diwarisi ke class lain maka variabel transaksi perlu di define sebelum init</li>
+        </ul></p>
+    </div>
+    <div class="section">
+        <h2>Query 5 - Method untuk Mencatat Transaksi Koperasi</h2>
+        <pre><code>
+    def catat_transaksi(self, nama_anggota, jenis_transaksi, jumlah_transaksi):
+        self.transaksi.append({'nama_anggota': nama_anggota, 'jenis_transaksi': jenis_transaksi, 'jumlah_transaksi': jumlah_transaksi})
+        print("Transaksi telah sukses tercatat.")
+        </code></pre>
+        <p><strong>Penjelasan:</strong><br><ul>Method catat_transaksi untuk pencatatan transaksi setiap anggota dan dibedakan jenis nya antara beli atau jual.</ul></p>
+        <p><strong>Do's:</strong><br><ul>
+            <li>Menerima input nama_anggota, jenis_transaksi, dan jumlah_transaksi</li>
+            <li>Menggunakan append untuk menambahkan data ke variabel transaksi di class Koperasi yang berupa list</li>
+            <li>Masukkan nama_anggota, jenis_transaksi, dan jumlah_transaksi sebagai dictionary agar memudahkan proses retrieval data</li>
+        </ul></p>
+        <p><strong>Don'ts:</strong><br><ul>
+            <li>Memasukkan nama_anggota, jenis_transaksi, dan jumlah_transaksi sebagai list karena akan menyulitkan saat proses pengambilan data</li>
+        </ul></p>
+    </div>
+    <div class="section">
+        <h2>Query 6 - Method untuk Menghitung Keuntungan Koperasi</h2>
+        <pre><code>
+    def hitung_keuntungan(self):
+        transaksi_beli = 0
+        transaksi_jual = 0
+        for items in self.transaksi:
+            if items["jenis_transaksi"] == "jual":
+                transaksi_jual = transaksi_jual + items["jumlah_transaksi"]
+            elif items["jenis_transaksi"] == "beli":
+                transaksi_beli = transaksi_beli + items["jumlah_transaksi"]
+
+        total_keuntungan = transaksi_jual - transaksi_beli
+        return total_keuntungan
+        </code></pre>
+        <p><strong>Penjelasan:</strong><br><ul>Method hitung_keuntungan untuk menghitung total keuntungan dari transaksi koperasi yaitu transaksi jual dikurangi beli.</ul></p>
+        <p><strong>Do's:</strong><br><ul>
+            <li>Menginisiasi variabel transaksi_beli dan transaksi_jual agar bisa digunakan saat looping karena akan terus menambahkan nominal transaksi tiap jenis nya ke dalam dua variabel tersebut</li>
+            <li>Melakukan looping dari variabel transaksi untuk mengambil data transaksi tiap anggota berdasarkan jenis transaksi nya dan ditambahkan ke variabel transaksi_beli dan transaksi_jual</li>
+            <li>Menghitung total keuntungan koperasi berdasarkan keseluruhan nominal transaksi jual dikurangi transaksi beli</li>
+        </ul></p>
+        <p><strong>Don'ts:</strong><br><ul>
+            <li>Jika tidak menginisiasi variabel transaksi beli dan jual di awal akan terkena error karena variabel tersebut belum di inisiasi terlebih dahulu</li>
+        </ul></p>
+    </div>
+    <div class="section">
+        <h2>Query 7 - Class Bank Sampah</h2>
+        <pre><code>
+    class BankSampah(UMKMSystem):
+        def __init__(self, nama_umkm):
+            super().__init__(nama_umkm.umkm)
+            self.data_sampah = {}
+        </code></pre>
+        <p><strong>Penjelasan:</strong><br><ul>Class Bank Sampah yang mewarisi class UMKMSystem, dengan atribut tambahan variabel data sampah untuk menyimpan data sampah dan jumlah nya.</ul></p>
+        <p><strong>Do's:</strong><br><ul>
+            <li>Membawa variabel nama umkm dari class UMKMSystem menggunakan method super() untuk memastikan saat inisiasi class Bank Sampah juga menginisiasi atribut yang ada pada class UMKMSystem</li>
+            <li>Inisiasi variabel data_sampah berupa dictionary kosong untuk menyimpan data pengumpulan sampah</li>
+        </ul></p>
+        <p><strong>Don'ts:</strong><br><ul>
+            <li>Untuk variabel data_sampah bisa dibuat langsung saat inisiasi jika class tersebut tidak diwarisi lagi ke class lain, jika akan diwarisi ke class lain maka variabel data_sampah perlu di define sebelum init</li>
+            <li>Karena akan ada keperluan untuk mengupdate data berdasarkan nama anggota dan jenis sampah yang dikumpulkan maka sebaiknya dibuat sebagai dictionary bukan sebagai list agar mudah mencari keywords nya</li>
+        </ul></p>
+    </div>
+    <div class="section">
+        <h2>Query 8 - Method untuk Mencatat Data Bank Sampah</h2>
+        <pre><code>
+    def catat_sampah(self, nama_anggota, jenis_sampah, jumlah):        
+        if nama_anggota in self.data_sampah:
+            for i in self.data_sampah:
+                if i == nama_anggota:
+                    if jenis_sampah in self.data_sampah[i]:
+                        self.data_sampah[nama_anggota][jenis_sampah] = self.data_sampah[nama_anggota][jenis_sampah] + jumlah
+                    else:
+                        self.data_sampah[nama_anggota][jenis_sampah] = jumlah
+        else:
+            self.data_sampah[nama_anggota] = {jenis_sampah: jumlah}
+        </code></pre>
+        <p><strong>Penjelasan:</strong><br><ul>Method catat_sampah untuk pencatatan data sampah, jenis, dan jumlah nya yang telah dikumpulkan setiap anggota</ul></p>
+        <p><strong>Do's:</strong><br><ul>
+            <li>Menerima input nama_anggota, jenis_sampah, dan jumlah</li>
+            <li>Melakukan looping dari variabel data sampah untuk mengambil data pengumpulan sampah berdasarkan nama_anggota dan jenis_sampah</li>
+            <li>Melakukan pengecekan apakah nama anggota dan jenis sampah yang di input sudah ada dalam data_sampah, jika belum ada maka akan menambahkan data baru, jika sudah ada maka akan mengupdate data nya</li>
+        </ul></p>
+        <p><strong>Don'ts:</strong><br><ul>
+            <li>Jika tidak ada pengecekan terkait nama dan jenis sampah yang telah ada, maka data nya akan bertambah terus dan akan menjadi kurang rapih</li>
+        </ul></p>
+    </div>
+    <div class="section">
+        <h2>Query 9 - Method untuk Menghitung Nilai Tukar Sampah</h2>
+        <pre><code>
+    def hitung_nilai_tukar(self):
+        total_per_anggota = {}
+        total_nilai = 0
+        for items in self.data_sampah:
+            nilai_anggota = 0
+            for type in self.data_sampah[items]:
+                if type == "plastik":
+                    nilai_anggota = nilai_anggota + (5000 * self.data_sampah[items][type])
+                elif type == "kertas":
+                    nilai_anggota = nilai_anggota + (2000 * self.data_sampah[items][type])
+            total_nilai = total_nilai + nilai_anggota
+            total_per_anggota[items] = nilai_anggota
+            print(f"Total nilai tukar {items} (Rp.): {nilai_anggota:,}")
+        print(f"Total nilai tukar semua anggota (Rp.): {total_nilai:,}")
+        </code></pre>
+        <p><strong>Penjelasan:</strong><br><ul>Method hitung_nilai_tukar untuk menghitung nilai tukar berdasarkan data sampah (misalnya plastik Rp. 5000/kg, kertas Rp. 2000/kg, dsb)</ul></p>
+        <p><strong>Do's:</strong><br><ul>
+            <li>Inisiasi variabel total_per_anggota, total_nilai, dan nilai_anggota untuk placeholder sementara dari hasil penghitungan nilai tukar tiap anggota</li>
+            <li>Melakukan looping dari variabel data_sampah untuk setiap anggota dan dikelompokkan per jenis sampah nya</li>
+            <li>Menghitung nilai tukar sampah berdasarkan jenis sampah dikalikan jumlah dan nilai per kg jenis sampah nya</li>
+        </ul></p>
+        <p><strong>Don'ts:</strong><br><ul>
+            <li>Pastikan sudah menginisiasi variabel total_per_anggota, total_nilai, dan nilai_anggota agar tidak error</li>
+        </ul></p>
+    </div>
+    <div class="section">
+        <h2>Query 10 - Method untuk Pesan Edukasi Lingkungan</h2>
+        <pre><code>
+    def pesan_edukasi(self, nama):
+        total_sampah = 0
+        for items in self.data_sampah:
+            if items == nama:
+                for jenis_sampah in self.data_sampah[nama]:
+                    total_sampah = total_sampah + self.data_sampah[nama][jenis_sampah]
+        if total_sampah > 50:
+            print(f"\n{nama} telah mengumpulkan {total_sampah} kg sampah.\n"
+                  + "Anda adalah pahlawan lingkungan sejati!")
+        elif total_sampah > 20:
+            print(f"\n{nama} telah mengumpulkan {total_sampah} kg sampah.\n"
+                  + "Mari bersama berkontribusi lebih banyak untuk bumi!")
+        elif total_sampah > 0:
+            print(f"\n{nama} telah mengumpulkan {total_sampah} kg sampah.\n"
+                  + "Semoga ini menjadi awal yang baik untuk kita bisa mengumpulkan lebih banyak sampah lagi!")
+        else:
+            print(f"\n{nama} belum mengumpulkan sampah.\nMari kita mulai mengumpulkan sampah agar Bumi kembali bersih!")
+        </code></pre>
+        <p><strong>Penjelasan:</strong><br><ul>Method pesan_edukasi untuk memberikan pesan yang dipersonalisasi dan disesuaikan dengan pencapaian pengumpulan sampah tiap anggota agar bisa memberikan motivasi.</ul></p>
+        <p><strong>Do's:</strong><br><ul>
+            <li>Menginisiasi variabel total_sampah untuk melihat total sampah yang dikumpulkan per anggota</li>
+            <li>Melakukan looping dari variabel data_sampah untuk mengambil data sesuai dengan nama anggota yang dipilih</li>
+            <li>Membuat kondisional if else agar bisa memberikan pesan yang berbeda sesuai pencapaian pengumpulan sampah dari anggota yang dipilih</li>
+        </ul></p>
+        <p><strong>Don'ts:</strong><br><ul>
+            <li>Saat pembuatan kondisional if else nya, mulai dari kriteria lebih besar dahulu baru ke yang kecil agar sistematis dan output yang diinginkan bisa sesuai</li>
+            <li>Kalau dimulai dari yang kecil jika ada data yang masuk ke kriteria besar maka yang akan dijalankan yaitu kondisi kecil nya karena begitu ada yang sesuai dengan kriteria maka yang paling atas akan langsung dijalankan tanpa melihat lagi kondisi dibawah nya</li>
+        </ul></p>
+    </div>
+    <div class="section">
+        <h2>Query 11 - Mengintegrasikan Semua Komponen</h2>
+        <pre><code>
+    def menu(nama_umkm):
+        global koperasi, bank_sampah
+        while True:
+            try:
+                print("\nSilahkan pilih menu:\n1. UMKM System\n2. Koperasi\n3. Bank Sampah\n4. Laporan\n5. Keluar")
+
+                pilih_menu = int(input("Pilih (1/2/3/4): "))
+                if pilih_menu == 1:
+                    print("\nUMKM System\n-----------\nSilahkan pilih kegiatan:\n1. Tambah Anggota\n2. Hitung Pengembalian\n3. Kembali")
+
+                    menu_umkm = int(input("Pilih (1/2/3): "))
+                    if menu_umkm == 1:
+                        if isinstance(bank_sampah, BankSampah) and len(bank_sampah.data_sampah) > 0:
+                            nama_anggota = input("Masukkan nama anggota: ")
+                            jumlah_pinjaman = int(input("Masukkan jumlah pinjaman: "))
+
+                            nama_umkm.tambah_anggota(nama_anggota, jumlah_pinjaman)
+                        else:
+                            print(f"Notes: {nama_umkm.umkm} belum aktif dalam program Bank Sampah sehingga belum dapat menggunakan dana pinjaman.\n")
+                            nama_anggota = input("Masukkan nama anggota: ")
+                            jumlah_pinjaman = 0
+                            nama_umkm.tambah_anggota(nama_anggota, jumlah_pinjaman)
+                    elif menu_umkm == 2:
+                        nama_anggota = input("Masukkan nama anggota: ")
+                        tahun_pengembalian = int(input("Masukkan tahun pengembalian (1,2,dst): "))
+                        nama_umkm.hitung_pengembalian(nama_anggota, tahun_pengembalian)
+                    elif menu_umkm == 3:
+                        pass
+                    else:
+                        print("Mohon Pilih menu yang tertera.")
+
+                elif pilih_menu == 2:
+                    print("\nKoperasi\n-----------\nSilahkan pilih kegiatan:\n1. Daftar Koperasi\n2. Catat Transaksi\n3. Hitung Keuntungan\n4. Kembali")
+                    menu_koperasi = int(input("Pilih (1/2/3/4): "))
+
+                    if menu_koperasi == 1:
+                        if isinstance(koperasi, Koperasi):
+                            print("UMKM Anda sudah terdaftar dalam program Koperasi.")
+                        else:
+                            koperasi = Koperasi(nama_umkm)
+                            print("Selamat Anda kini menjadi bagian dalam program Koperasi!")
+                    elif menu_koperasi == 2:
+                        nama_anggota = input("Masukkan nama anggota: ")
+                        jenis_transaksi = input("Masukkan jenis transaksi (Jual/Beli): ")
+                        jumlah_transaksi = int(input("Masukkan jumlah transaksi: "))
+                        koperasi.catat_transaksi(nama_anggota, jenis_transaksi, jumlah_transaksi)
+                    elif menu_koperasi == 3:
+                        print(f"Total Keuntungan Koperasi sebesar (Rp.): {koperasi.hitung_keuntungan():,}")
+                    elif menu_koperasi == 4:
+                        pass
+                    else:
+                        print("Mohon Pilih menu yang tertera.")
+
+                elif pilih_menu == 3:
+                    print("\nBank Sampah\n-----------\nSilahkan pilih kegiatan:\n1. Daftar Bank Sampah\n2. Catat Sampah\n3. Hitung Nilai Tukar\n4. Kembali")
+                    menu_bank_sampah = int(input("Pilih (1/2/3/4/5): "))
+
+                    if menu_bank_sampah == 1:
+                        if isinstance(bank_sampah, BankSampah):
+                            print("UMKM Anda sudah terdaftar dalam program Bank Sampah.")
+                        else:
+                            bank_sampah = BankSampah(nama_umkm)
+                            print("Selamat Anda kini menjadi bagian dalam program Bank Sampah!")
+                    elif menu_bank_sampah == 2:
+                        nama_anggota = input("Masukkan nama anggota: ")
+                        jenis_sampah = input("Masukkan jenis sampah: ")
+                        jumlah_sampah = int(input("Masukkan jumlah sampah: "))
+                        bank_sampah.catat_sampah(nama_anggota, jenis_sampah, jumlah_sampah)
+                    elif menu_bank_sampah == 3:
+                        bank_sampah.hitung_nilai_tukar()
+                    elif menu_bank_sampah == 4:
+                        pass
+                    else:
+                        print("Mohon Pilih menu yang tertera.")
+                elif pilih_menu == 4:
+                    print(f"\nLaporan\n-----------\nBerikut Laporan lengkap dari UMKM {nama_umkm.umkm}:\n")
+                    for items in nama_umkm.anggota:
+                        nama = items["nama_anggota"]
+                        pinjaman = items["jumlah_pinjaman"]
+                        print(f"Nama Anggota: {nama}\nJumlah Pinjaman (Rp.): {pinjaman:,}")
+                    print(f"\nTransaksi Koperasi:")
+                    for items in koperasi.transaksi:
+                        print(f"Nama: {items['nama_anggota']}, Transaksi: {items['jenis_transaksi']}, Nominal (Rp.): {items['jumlah_transaksi']:,}")
+                    print(f"Total Keuntungan Koperasi sebesar (Rp.): {koperasi.hitung_keuntungan():,}")
+
+                    bank_sampah.hitung_nilai_tukar()
+                    for items in bank_sampah.data_sampah:
+                        nama = items
+                        bank_sampah.pesan_edukasi(nama)
+
+                elif pilih_menu == 5:
+                    break
+                else:
+                    print("Mohon Pilih menu yang tertera.")
+            except Exception as e:
+                print(e)
+
+    try:
+        nama_umkm = input("Selamat Datang di aplikasi UMKM System!\nMohon masukkan nama UMKM Anda: ")
+        print(f"Selamat Datang {nama_umkm}!")
+        nama_umkm = UMKMSystem(nama_umkm)
+        koperasi = None
+        bank_sampah = None
+        menu(nama_umkm)
+    except Exception as e:
+        print(e)
+        </code></pre>
+        <h2>Output Demo:</h2>
+        <pre><code>
+    Selamat Datang di aplikasi UMKM System!
+    Mohon masukkan nama UMKM Anda: ETL Batch 9
+    Selamat Datang ETL Batch 9!
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 1
+
+    UMKM System
+    -----------
+    Silahkan pilih kegiatan:
+    1. Tambah Anggota
+    2. Hitung Pengembalian
+    3. Kembali
+    Pilih (1/2/3): 1
+    Notes: ETL Batch 9 belum aktif dalam program Bank Sampah sehingga belum dapat menggunakan dana pinjaman.
+
+    Masukkan nama anggota: Doni
+    Doni telah sukses terdaftar sebagai anggota ETL Batch 9 dengan jumlah pinjaman Rp. 0
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 3
+
+    Bank Sampah
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Bank Sampah
+    2. Catat Sampah
+    3. Hitung Nilai Tukar
+    4. Informasi Data Bank Sampah
+    5. Kembali
+    Pilih (1/2/3/4/5): 1
+    Selamat Anda kini menjadi bagian dalam program Bank Sampah!
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 3
+
+    Bank Sampah
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Bank Sampah
+    2. Catat Sampah
+    3. Hitung Nilai Tukar
+    4. Informasi Data Bank Sampah
+    5. Kembali
+    Pilih (1/2/3/4/5): 2
+    Masukkan nama anggota: Doni
+    Masukkan jenis sampah: Plastik
+    Masukkan jumlah sampah: 23
+
+    Data Bank sampah telah tercatat.
+
+    Doni telah mengumpulkan 23 kg sampah.
+    Mari bersama berkontribusi lebih banyak untuk bumi!
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 1
+
+    UMKM System
+    -----------
+    Silahkan pilih kegiatan:
+    1. Tambah Anggota
+    2. Hitung Pengembalian
+    3. Kembali
+    Pilih (1/2/3): 1
+    Masukkan nama anggota: Doni
+    Masukkan jumlah pinjaman: 20000000
+    Doni telah sukses terdaftar sebagai anggota ETL Batch 9 dengan jumlah pinjaman Rp. 20,000,000
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 1
+
+    UMKM System
+    -----------
+    Silahkan pilih kegiatan:
+    1. Tambah Anggota
+    2. Hitung Pengembalian
+    3. Kembali
+    Pilih (1/2/3): 1
+    Masukkan nama anggota: Agus
+    Masukkan jumlah pinjaman: 22000000
+    Agus telah sukses terdaftar sebagai anggota ETL Batch 9 dengan jumlah pinjaman Rp. 22,000,000
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 1
+
+    UMKM System
+    -----------
+    Silahkan pilih kegiatan:
+    1. Tambah Anggota
+    2. Hitung Pengembalian
+    3. Kembali
+    Pilih (1/2/3): 1
+    Masukkan nama anggota: Ihsan
+    Masukkan jumlah pinjaman: 10000000
+    Mohon maaf, dana pinjaman pada UMKM ETL Batch 9 telah mencapai limit.
+    Anda dapat menggunakannya kembali ketika anggota lain sudah mengembalikan, Terimakasih.
+    Ihsan telah sukses terdaftar sebagai anggota ETL Batch 9 dengan jumlah pinjaman Rp. 0
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 1
+
+    UMKM System
+    -----------
+    Silahkan pilih kegiatan:
+    1. Tambah Anggota
+    2. Hitung Pengembalian
+    3. Kembali
+    Pilih (1/2/3): 1
+    Masukkan nama anggota: Ihsan
+    Masukkan jumlah pinjaman: 2500000
+    Ihsan telah sukses terdaftar sebagai anggota ETL Batch 9 dengan jumlah pinjaman Rp. 2,500,000
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 1
+
+    UMKM System
+    -----------
+    Silahkan pilih kegiatan:
+    1. Tambah Anggota
+    2. Hitung Pengembalian
+    3. Kembali
+    Pilih (1/2/3): 2
+    Masukkan nama anggota: Doni
+    Masukkan tahun pengembalian (1,2,dst): 5
+    Total pengembalian dari Doni selama 5 Tahun sebesar (Rp.): 25,000,000
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 2
+
+    Koperasi
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Koperasi
+    2. Catat Transaksi
+    3. Hitung Keuntungan
+    4. Kembali
+    Pilih (1/2/3/4): 1
+    Selamat Anda kini menjadi bagian dalam program Koperasi!
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 2
+
+    Koperasi
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Koperasi
+    2. Catat Transaksi
+    3. Hitung Keuntungan
+    4. Kembali
+    Pilih (1/2/3/4): 2
+    Masukkan nama anggota: Doni
+    Masukkan jenis transaksi (Jual/Beli): Jual
+    Masukkan jumlah transaksi: 15000000
+    Transaksi telah sukses tercatat.
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 2
+
+    Koperasi
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Koperasi
+    2. Catat Transaksi
+    3. Hitung Keuntungan
+    4. Kembali
+    Pilih (1/2/3/4): 2
+    Masukkan nama anggota: Doni
+    Masukkan jenis transaksi (Jual/Beli): beli
+    Masukkan jumlah transaksi: 10000000
+    Transaksi telah sukses tercatat.
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 2
+
+    Koperasi
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Koperasi
+    2. Catat Transaksi
+    3. Hitung Keuntungan
+    4. Kembali
+    Pilih (1/2/3/4): 2
+    Masukkan nama anggota: Agus
+    Masukkan jenis transaksi (Jual/Beli): jual
+    Masukkan jumlah transaksi: 13000000
+    Transaksi telah sukses tercatat.
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 2
+
+    Koperasi
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Koperasi
+    2. Catat Transaksi
+    3. Hitung Keuntungan
+    4. Kembali
+    Pilih (1/2/3/4): 2
+    Masukkan nama anggota: Agus
+    Masukkan jenis transaksi (Jual/Beli): Beli
+    Masukkan jumlah transaksi: 10000000
+    Transaksi telah sukses tercatat.
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 2
+
+    Koperasi
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Koperasi
+    2. Catat Transaksi
+    3. Hitung Keuntungan
+    4. Kembali
+    Pilih (1/2/3/4): 3
+    Total Keuntungan Koperasi sebesar (Rp.): 8,000,000
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 3
+
+    Bank Sampah
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Bank Sampah
+    2. Catat Sampah
+    3. Hitung Nilai Tukar
+    4. Informasi Data Bank Sampah
+    5. Kembali
+    Pilih (1/2/3/4/5): 2
+    Masukkan nama anggota: Doni
+    Masukkan jenis sampah: kertas
+    Masukkan jumlah sampah: 30
+
+    Data Bank sampah telah tercatat.
+
+    Doni telah mengumpulkan 53 kg sampah.
+    Anda adalah pahlawan lingkungan sejati!
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 3
+
+    Bank Sampah
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Bank Sampah
+    2. Catat Sampah
+    3. Hitung Nilai Tukar
+    4. Informasi Data Bank Sampah
+    5. Kembali
+    Pilih (1/2/3/4/5): 2
+    Masukkan nama anggota: Agus
+    Masukkan jenis sampah: kertas
+    Masukkan jumlah sampah: 15
+
+    Data Bank sampah telah tercatat.
+
+    Agus telah mengumpulkan 15 kg sampah.
+    Semoga ini menjadi awal yang baik untuk kita bisa mengumpulkan lebih banyak sampah lagi!
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 3
+
+    Bank Sampah
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Bank Sampah
+    2. Catat Sampah
+    3. Hitung Nilai Tukar
+    4. Informasi Data Bank Sampah
+    5. Kembali
+    Pilih (1/2/3/4/5): 2
+    Masukkan nama anggota: Agus
+    Masukkan jenis sampah: plastik
+    Masukkan jumlah sampah: 6
+
+    Data Bank sampah telah tercatat.
+
+    Agus telah mengumpulkan 21 kg sampah.
+    Mari bersama berkontribusi lebih banyak untuk bumi!
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 3
+
+    Bank Sampah
+    -----------
+    Silahkan pilih kegiatan:
+    1. Daftar Bank Sampah
+    2. Catat Sampah
+    3. Hitung Nilai Tukar
+    4. Informasi Data Bank Sampah
+    5. Kembali
+    Pilih (1/2/3/4/5): 3
+    Total nilai tukar Doni (Rp.): 175,000
+    Total nilai tukar Agus (Rp.): 60,000
+    Total nilai tukar semua anggota (Rp.): 235,000
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 4
+
+    Laporan
+    -----------
+    Berikut Laporan lengkap dari UMKM ETL Batch 9:
+
+    Nama Anggota: Doni
+    Jumlah Pinjaman (Rp.): 20,000,000
+    Nama Anggota: Agus
+    Jumlah Pinjaman (Rp.): 22,000,000
+    Nama Anggota: Ihsan
+    Jumlah Pinjaman (Rp.): 2,500,000
+
+    Transaksi Koperasi:
+    Nama: Doni, Transaksi: Jual, Nominal (Rp.): 15,000,000
+    Nama: Doni, Transaksi: beli, Nominal (Rp.): 10,000,000
+    Nama: Agus, Transaksi: jual, Nominal (Rp.): 13,000,000
+    Nama: Agus, Transaksi: Beli, Nominal (Rp.): 10,000,000
+    Total Keuntungan Koperasi sebesar (Rp.): 8,000,000
+    Total nilai tukar Doni (Rp.): 175,000
+    Total nilai tukar Agus (Rp.): 60,000
+    Total nilai tukar semua anggota (Rp.): 235,000
+
+    Doni telah mengumpulkan 53 kg sampah.
+    Anda adalah pahlawan lingkungan sejati!
+
+    Agus telah mengumpulkan 21 kg sampah.
+    Mari bersama berkontribusi lebih banyak untuk bumi!
+
+    Silahkan pilih menu:
+    1. UMKM System
+    2. Koperasi
+    3. Bank Sampah
+    4. Laporan
+    5. Keluar
+    Pilih (1/2/3/4): 5
+        </code></pre>
+        <p><strong>Penjelasan:</strong><br><ul>Program utama yang mengintegrasikan class UMKMSystem, Koperasi, dan BankSampah, beserta method-method di tiap class berdasarkan input dari user secara interaktif sesuai dengan kebutuhan tiap method, disertai juga laporan lengkap dari data yang sudah di isi.</ul></p>
+        <p><strong>Do's:</strong><br><ul>
+            <li>Membuat method menu yang menerima input nama_umkm, di dalam nya berisikan looping agar aplikasi bisa berjalan secara kontinu sampai user memilih opsi keluar</li>
+            <li>Pada menu UMKM System, dibuat pengecekan apakah UMKM tersebut sudah aktif dalam program Bank Sampah sebagai syarat untuk mendapat pinjaman awal sebesar Rp. 50 juta</li>
+            <li>Menambahkan try dan except general untuk menghandle ketika ada error</li>
+            <li>Menggunakan method isinstance untuk mengecek apakah objek merupakan instance dari class tersebut atau tidak</li>
+        </ul></p>
+        <p><strong>Don'ts:</strong><br><ul>
+            <li>Jangan lupa menambahkan break pada method menu agar program bisa exit dan tidak infinite loop</li>
+        </ul></p>
+    </div>
+    </div>
+    <footer>
+        &copy; 2025 Doni Wahyudi
+    </footer>
 </body>
 </html>
